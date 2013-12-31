@@ -4,7 +4,7 @@
   <head>
     <title>Simple little page</title>
     <style type="text/css">
-    p strong {
+    p.mutated strong {
       color: #ef66cf;
     }
     p img {
@@ -18,17 +18,9 @@
   <body>
     <h1>Hello there!</h1>
     <p>Welcome to my <strong>simple</strong> html page.</p>
+    <small>See also: <a href="./index.html">the simple version</a></small>
 
     <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-    <script type="text/javascript">
-    (function ($) {
-
-      var $para = $('p'),
-          $node = $para.find('>strong');
-      $node.text($node.text().replace('simple', 'MUTATED'));
-      $para.append($('<img>', {src: 'images/toxie.jpg'}));
-
-    })(jQuery);
-    </script>
+    <script type="text/javascript" src="js/mutation.js"></script>
   </body>
 </html>

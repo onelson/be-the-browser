@@ -44,6 +44,41 @@
   <h3>HTTP overview</h3>
 </section>
 
+
+<section id="ports">
+  <section>
+    <h3>Talking on the Network</h3>
+    <p>Network applications allow clients to talk to them by
+    <strong>listening</strong> to a particular port number for
+    incoming messages.</p>
+    <img src="./images/network_eg1.gif" />
+    <aside class="notes">
+      The concept is similar to ports on a router/switch, except it's
+      all internal to a given host. The port numbers are mapped to
+      applications (instead of other hosts).
+    </aside>
+  </section>
+  <section>
+    <h3>Ports can be arbitrary</h3>
+    <ul>
+      <li>HTTP default: 80</li>
+      <li>HTTPS default: 443</li>
+    </ul>
+    <aside class="notes">
+      While any port number can be mapped to any application, there are
+      often accepted defaults that allow us as users to ignore the fact
+      they are even a factor.
+
+      With the accepted defaults of 80 and 443 for web traffic, browsers
+      can assume these to be the ports to use when they see
+      http:// or https:// in the URL.
+
+      In the case of a non-standard port, you need to add the correct port
+      number to the end of the host.
+    </aside>
+  </section>
+</section>
+
 <section id="reqeusts">
   <section>
     <h2>Making a Request</h2>
@@ -51,32 +86,32 @@
 
   <section>
     <h3>Request Structure</h3>
-    <pre><code>
-      Request       = Request-Line              ; Section 5.1
-                      *(( general-header        ; Section 4.5
-                       | request-header         ; Section 5.3
-                       | entity-header ) CRLF)  ; Section 7.1
-                      CRLF
-                      [ message-body ]          ; Section 4.3
+    <pre><code data-trim>
+Request       = Request-Line              ; Section 5.1
+                *(( general-header        ; Section 4.5
+                 | request-header         ; Section 5.3
+                 | entity-header ) CRLF)  ; Section 7.1
+                CRLF
+                [ message-body ]          ; Section 4.3
     </code></pre>
-    <em>from the spec</em>
+    <small>from the spec</small>
   </section>
 
   <section>
     <h3>Request Structure</h3>
-    <pre><code>
-      &lt;METHOD&gt; &lt;URI&gt;[?&lt;QUERY&gt;] &lt;PROTOCOL&gt;
-      &lt;HEADERS&gt;
+    <pre><code data-trim>
+&lt;METHOD&gt; &lt;URI&gt;[?&lt;QUERY&gt;] [&lt;PROTOCOL VERSION&gt;]
+&lt;HEADERS&gt;
 
-      [&lt;BODY&gt;]
+[&lt;BODY&gt;]
     </code></pre>
   </section>
 
   <section>
     <h2>Request Structure</h2>
-    <pre><code>
-      GET /page.html?query=value&other=value HTTP/1.1
-      Host: example.com
+    <pre><code data-trim>
+GET /page.html?query=value&other=value HTTP/1.1
+Host: example.com
     </code></pre>
   </section>
 
@@ -114,28 +149,28 @@
   </section>
   <section>
     <h3>Response Structure</h3>
-    <pre><code>
-       Response      = Status-Line               ; Section 6.1
-                       *(( general-header        ; Section 4.5
-                        | response-header        ; Section 6.2
-                        | entity-header ) CRLF)  ; Section 7.1
-                       CRLF
-                       [ message-body ]          ; Section 7.2
+    <pre><code data-trim>
+Response      = Status-Line               ; Section 6.1
+               *(( general-header        ; Section 4.5
+                | response-header        ; Section 6.2
+                | entity-header ) CRLF)  ; Section 7.1
+               CRLF
+               [ message-body ]          ; Section 7.2
     </code></pre>
-    <em>from the spec</em>
+    <small>from the spec</small>
   </section>
   <section>
     <h3>Response Structure</h3>
-    <pre><code>
-      &lt;STATUS&gt;
-      &lt;HEADERS&gt;
+    <pre><code data-trim>
+&lt;STATUS&gt;
+&lt;HEADERS&gt;
 
-      [&lt;BODY&gt;]</code></pre>
+[&lt;BODY&gt;]</code></pre>
   </section>
 
   <section>
     <h3>Response Structure</h3>
-    <pre><code style="font-size: 0.75em;" data-trim>
+    <pre><code data-trim>
 HTTP/1.0 200 OK
 Server: SimpleHTTP/0.6 Python/2.6.4
 Date: Mon, 30 Dec 2013 19:06:51 GMT
@@ -150,11 +185,48 @@ Last-Modified: Mon, 30 Dec 2013 19:06:20 GMT
   &lt;/head&gt;
   &lt;body&gt;
     &lt;h1&gt;Hello there!&lt;/h1&gt;
-    &lt;p&gt;Welcome to my simple html page.&lt;/p&gt;
+    &lt;p&gt;Welcome to my &lt;strong&gt;simple&lt;/strong&gt; html page.&lt;/p&gt;
   &lt;/body&gt;
-&lt;/html&gt;</code></pre>
-  </section>
+&lt;/html&gt;
+</code></pre>
 </section>
+
+</section>
+
+  <section>
+    <section>
+      <h3>HTTP Status Codes</h3>
+      <p>Status codes are used by web servers to communicate the outcome of a
+        request.</p>
+      <p>The status code appears on the 1st line (the status line) of
+        the response, and can be thought of as how you might use an exit
+        code for a CLI application.</p>
+    </section>
+
+    <section>
+      <h3>HTTP Status Codes</h3>
+      <div style="margin: 6px auto; max-width: 500px;">
+      <blockquote class="twitter-tweet" lang="en"><p>HTTP response codes for dummies. 50x: we fucked up. 40x: you fucked up. 30x: ask that dude over there. 20x: cool.</p>&mdash; Dana McCallum (@DanaDanger) <a href="https://twitter.com/DanaDanger/statuses/183316183494311936">March 23, 2012</a></blockquote>
+      </div>
+    </section>
+    <section>
+      <h3>Notable Statuses</h3>
+      <ul>
+        <li class="fragment">418: I'm a Teapot (landed in HTTP by way of
+          <a href="http://www.ietf.org/rfc/rfc2324.txt" target="_blank">
+            HTCPCP</a>).</li>
+
+        <li class="fragment">420: Enahnce Your Calm (proposed by
+          twitter to indicate "rate limiting is now in effect" but not
+          adopted).</li>
+
+        <li class="fragment">451: Unavailable For Legal Reasons (
+          <a href="https://ietf.org/doc/draft-tbray-http-legally-restricted-status/?include_text=1" target="_blank">proposed</a>, but not yet adopted).</li>
+
+      </ul>
+    </section>
+
+  </section>
 
 <section id="rendering">
   <section>
@@ -189,19 +261,53 @@ Last-Modified: Mon, 30 Dec 2013 19:06:20 GMT
     <p class="fragment">Best practice is to put your scripts at the very bottom of the
       document so the page can start laying itself out beforehand.</p>
   </section>
-
 </section>
 
 <section>
-  <h2>Script Execution in the Browser</h2>
-  <p>The assets that we link to from our document must be web accessible.</p>
-  <p>Once executed by the browser</p>
+  <section>
+    <h2>Script Execution in the Browser</h2>
+    <p>The assets that we link to from our document must be web
+      accessible.</p>
+    <p>Important to note that Javascript runs in the browser as part of
+      additional requests when linked via a script tag src attribute.</p>
+  </section>
+
+  <section>
+    <h3>DOM Mutation</h3>
+    <pre><code data-trim>
+(function ($) {
+  'use strict';
+
+  // finds a strong elem inside the parent and sets it's text to msg
+  window.setMessage = function setMessage($parent, msg) {
+    $parent.find('strong').text(msg);
+  };
+
+  var $para = $('p');
+  window.setMessage($para, 'MUTATED');
+  $para.append($('<img>', {src: 'images/toxie.jpg'}));
+
+})(jQuery);
+    </code></pre>
+    <small>See: <a href="../static-site/dynamic.html" target="_blank">mutation demo</a></small>
+  </section>
+  <section>
+    <h3>The Browser is a Sandbox</h3>
+    <p>There are a number of cases where the browser may prevent you from doing things you'd like to do.</p>
+    <ul>
+      <li>Referencing insecure content in a secure document.</li>
+      <li>Linking to assets using non-network protocols (for example, file://).</li>
+      <li>Using JavaScript to make a request to another application
+        (this is called a cross origin resource sharing, or CORS).</li>
+    </ul>
+  </section>
 </section>
 
 </div>
 
 </div>
 
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 <script src="lib/js/head.min.js"></script>
 <script src="js/reveal.min.js"></script>
 
