@@ -1,0 +1,9 @@
+
+.mutated strong {
+  color: #ef66cf;
+}
+p img {
+  display: block;
+  margin: 10px;
+  height: 200px;
+}
